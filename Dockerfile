@@ -1,8 +1,12 @@
 FROM python:3.10-slim
 
-# Installer dépendances système minimales
+# Installer dépendances système pour OpenCV et Python
 RUN apt-get update && apt-get install -y \
-    libglib2.0-0 libsm6 libxext6 libxrender1 \
+    libgl1 \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender1 \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
