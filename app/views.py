@@ -9,7 +9,7 @@ import tensorflow as tf
 
 # Charger ton modèle IA (modifier le chemin)
 model = tf.keras.models.load_model("my_model.h5")
-n=np.array([1])
+
 def preprocess(img):
     img = img.resize((128, 128))
     img = np.array(img) / 255.0
