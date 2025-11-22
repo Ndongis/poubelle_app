@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Prédiction YOLO – Poubelles</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f4f6f9;
+        }
+        .card {
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .image-display img {
+            max-height: 300px;
+            border-radius: 10px;
+        }
+        .image-display h6 {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body class="d-flex justify-content-center align-items-start vh-100 py-5">
+
+<div class="container">
+    <div class="row">
+
+        <!-- Formulaire à gauche -->
+        <div class="col-md-4 mb-4">
+            <div class="card p-4">
+                <h2 class="text-center mb-4">Classification des Poubelles</h2>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Choisir une image</label>
+                        <input class="form-control" type="file" id="imageInput" name="image" accept="image/*" required>
+                    </div>
+                    <button class="btn btn-success w-100" type="submit">Prédire</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Images côte à côte à droite -->
+        <div class="col-md-8">
+            <div class="card p-4">
+                <h4 class="text-center mb-3">Images</h4>
+                <div class="d-flex justify-content-start align-items-start gap-3 flex-wrap image-display">
+
+                    <!-- Preview image originale -->
+                    <div>
+                        <h6 class="text-center">Originale</h6>
+                        <img id="preview" src="#" class="d-none img-fluid">
+                    </div>
+
+                    <!-- Image YOLO annotée -->
+                    {% if yolo_image_url %}
+                    <div>
+                        <h6 class="text-center">YOLO</h6>
+                        <img src="{{ yolo_image_url }}" class="img-fluid">
+                        <p class="text-center fw-bold text-primary">{{ prediction }}</p>
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- JS : preview immédiate -->
+<!-- JS : preview immédiate et reset YOLO -->
+<script>
+    const imageInput = document.getElementById("imageInput");
+    const preview = document.getElementById("preview");
+    const yoloImages = document.querySelectorAll(".image-display div img");
+
+    imageInput.addEventListener("change", function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            // Afficher la preview
+            preview.src = URL.createObjectURL(file);
+            preview.classList.remove("d-none");
+
+            // Supprimer l'image YOLO affichée
+            yoloImages.forEach(img => {
+                if (img !== preview) {
+                    img.remove();
+                }
+            });
+
+            // Supprimer le texte de prédiction associé à YOLO
+            const yoloTexts = document.querySelectorAll(".image-display div p");
+            yoloTexts.forEach(p => p.remove());
+        }
+    });
+</script>
+
+</body>
+</html>
