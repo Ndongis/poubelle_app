@@ -28,7 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://web-production-d8050.up.railway.app",  # ton domaine déployé
+    # ajoute d'autres domaines si besoin
+]
 
 # Application definition
 
