@@ -10,4 +10,4 @@ COPY --from=builder /install /usr/local
 COPY . .
 
 EXPOSE 8000
-CMD ["gunicorn", "monprojet.wsgi", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "app.wsgi", "--bind", "0.0.0.0:8000"]
