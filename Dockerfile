@@ -11,12 +11,20 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
+# Copier requirements
 COPY requirements.txt .
 
+# Installer Numpy en premier
+RUN pip install --upgrade pip
+RUN pip install numpy
+
+# Installer le reste des packages
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copier le code de l'application
 COPY . .
 
 EXPOSE 8000
 
+# Lancer Gunicorn
 CMD ["gunicorn", "app.wsgi:application", "--bind", "0.0.0.0:8000"]
