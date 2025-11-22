@@ -1,13 +1,18 @@
-FROM python:3.12-slim AS builder
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --prefix=/install -r requirements.txt \
-    && pip install --prefix=/install torch==2.2.0+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
+FROM python:3.10-slim
 
-FROM python:3.12-slim
+# Installer dépendances système minimales
+RUN apt-get update && apt-get install -y \
+    libglib2.0-0 libsm6 libxext6 libxrender1 \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
-COPY --from=builder /install /usr/local
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
 COPY . .
 
 EXPOSE 8000
-CMD ["gunicorn", "app.wsgi", "--bind", "0.0.0.0:8000"]
+
+CMD ["gunicorn", "backend.wsgi:application", "--bind", "0.0.0.0:8000"]
