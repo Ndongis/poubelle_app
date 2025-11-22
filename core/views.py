@@ -5,8 +5,9 @@ from ultralytics import YOLO
 import numpy as np
 import numpy
 print("NumPy version:", numpy.__version__)
-model = YOLO(os.path.join(settings.BASE_DIR, "app", "best.pt"))
+#model = YOLO(os.path.join(settings.BASE_DIR, "app", "best.pt"))
 n=np.array([1])
+model=[]
 def upload_and_predict(request):
     prediction = None
     yolo_image_url = None
