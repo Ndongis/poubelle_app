@@ -29,7 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://poubelleapp-production.up.railway.app/",  # ton domaine déployé
+    "https://poubelleapp-production.up.railway.app",  # ton domaine déployé
     # ajoute d'autres domaines si besoin
 ]
 
