@@ -16,7 +16,6 @@ COPY requirements.txt .
 
 # Installer Numpy en premier
 RUN pip install --upgrade pip
-RUN pip install numpy
 
 # Installer le reste des packages
 RUN pip install --no-cache-dir -r requirements.txt
