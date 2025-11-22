@@ -3,6 +3,8 @@ from django.conf import settings
 import os
 from ultralytics import YOLO
 import numpy as np
+import numpy
+print("NumPy version:", numpy.__version__)
 model = YOLO(os.path.join(settings.BASE_DIR, "app", "best.pt"))
 n=np.array([1])
 def upload_and_predict(request):
